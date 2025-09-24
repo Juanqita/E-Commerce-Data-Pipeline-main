@@ -1,74 +1,69 @@
-# Sprint project 01
-> E-Commerce Data Pipeline
+# 🛒 E-Commerce Data Pipeline
 
-Hi! this is the first of several projects we're going to be working on during this course.
-You will be expected to finish this project on your own, but you can use the available channels on Discord to ask questions and help others. 
+Hi! this projectimplements a **data pipeline** for the Olist e-commerce dataset, including data extraction, loading into a SQLite database, SQL queries, and visualizations using Python (pandas, SQLAlchemy, matplotlib, plotly).
 
-Please go through this `README` file before starting. It will give you a better idea of what you need to accomplish.
+## 🚀 Project Structure
+E-Commerce-Data-Pipeline-main/
+│── src/ # Source code (extract, load, transform, plots)
+│── queries/ # SQL queries
+│── tests/ # Unit tests with pytest
+│── data/ # Original and/or derived CSVs
+│── requirements.txt # Dependencies
+│── README.md # This file
+│── .gitignore # Files ignored by Git
 
-## The Business problem
 
-You are working for one of the largest e-commerce sites in Latam and they requested the Data Science team to analyze company data and make visualizations to better understand the company's performance on specific metrics during the years 2016-2018.
+---
 
-There are two main areas they want to explore: **Revenue** and **Delivery**.
+## ⚙️ Installation
 
-Basically, they would like to understand how much revenue they got each year, which were the most and least popular product categories, and how much revenue they got in each state. On the other hand, it's important to know how effectively the company is delivering the sold products to their users. For example, by identifying the difference between the estimated delivery date and the real one, for each month and state.
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/ecommerce-data-pipeline.git
+cd ecommerce-data-pipeline
 
-## About the data
+2. Create a virtual environment and install dependencies:
+```bash
+python -m venv venv
+source venv/bin/activate   # Linux / Mac
+venv\Scripts\activate      # Windows
 
-You will consume and use data from two sources.
+pip install -r requirements.txt
 
-The first one is a Brazilian e-commerce public dataset of orders made at the Olist Store, provided as CSVs files. This is real commercial data, that has been anonymized. The dataset has information on 100k orders from 2016 to 2018 made at multiple marketplaces in Brazil. Its features allow viewing orders from multiple dimensions: order status, delivery date, product information, customer information, geolocation, customer reviews, among others. You will find an image showing the database schema at `images/data_schema.png`. 
+## ▶️ Usage
+1. Load the data and create the SQLite database:
+from src.extract import extract
+from src.load import load
+from src.transform import run_queries
+from src.config import ENGINE
 
-- To get the dataset, please download it from this [link](https://drive.google.com/file/d/1HIy4LNNQESuXUj-u_mNJTCGCRrCeSbo-/view?usp=share_link), extract the `dataset` folder from the `.zip` file, and place it into the root project folder. See `ASSIGNMENT.md`, section **Project Structure** to validate you've placed the dataset as it's needed.
+# Extract CSVs and load them into the DB
+csv_dataframes = extract("data", csv_table_mapping, public_holidays_url)
+load(data_frames=csv_dataframes, database=ENGINE)
 
-The second source is a public API: https://date.nager.at. You will use it to retrieve information about Brazil's Public Holidays and correlate it with certain metrics about product delivery.
+# Run queries
+results = run_queries(database=ENGINE)
 
-## Technical aspects
+2. Visualize results (example):
+from src.plots import plot_top_10_revenue_categories
+df = results["top_10_revenue_categories"]
+plot_top_10_revenue_categories(df)
 
-Because the team knows the data will come from different sources and formats, you will probably have to provide these kinds of reports on a monthly or annual basis. They decided to build a data pipeline (ELT) that they can execute from time to time to produce the results. You will have to go through the steps outlined in `ASSIGNMENT.md` to build this pipeline.
+##🧪 Testing
 
-The technologies involved are:
-- Python as the main programming language
-- Pandas for consuming data from CSVs files
-- Requests for querying the public holidays API
-- SQLite as a database engine
-- SQL as the main language for storing, manipulating, and retrieving data in our Data Warehouse
-- Matplotlib and Seaborn for the visualizations
-- Jupyter notebooks to make the report an interactive way
+Run unit tests with:
+pytest tests/
 
-## Instalation
+##📊 Main Dependencies
+- Python 3.12
+- pandas
+- SQLAlchemy
+- matplotlib
+- plotly
+- pytest
 
-A `requirements.txt` file is provided with all the needed Python libraries for running this project. For installing the dependencies just run:
+##✨ Author
 
-```console
-$ pip install -r requirements.txt
-```
-
-*Note:* We encourage you to install those inside a virtual environment using Python 3.9.
-
-## Code Style
-
-Following a style guide keeps the code's aesthetics clean and improves readability, making contributions and code reviews easier. Automated Python code formatters make sure your codebase stays in a consistent style without any manual work on your end. If adhering to a specific style of coding is important to you, employing an automated to do that job is the obvious thing to do. This avoids bike-shedding on nitpicks during code reviews, saving you an enormous amount of time overall.
-
-We use [Black](https://black.readthedocs.io/) for automated code formatting in this project, you can run it with:
-
-```console
-$ black --line-length=88 .
-```
-
-Wanna read more about Python code style and good practices? Please see:
-- [The Hitchhiker’s Guide to Python: Code Style](https://docs.python-guide.org/writing/style/)
-- [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html)
-
-## Tests
-
-We provide unit tests along with the project that you can run and check from your side the code meets the minimum requirements of correctness needed to approve. To run just execute:
-
-```console
-$ pytest tests/
-```
-
-If you want to learn more about testing Python code, please read:
-- [Effective Python Testing With Pytest](https://realpython.com/pytest-python-testing/)
-- [The Hitchhiker’s Guide to Python: Testing Your Code](https://docs.python-guide.org/writing/tests/)
+Developed as part of an AnyoneAI academic sprint project.
+Made by Juan Camilo Peláez Machado.
+.
